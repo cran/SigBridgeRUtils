@@ -1,0 +1,11 @@
+utils::globalVariables(c(
+  "base_key",
+  "suffix",
+  "max_suffix",
+  "arg_count",
+  "position_sum",
+  "has_dots",
+  "exactly_matched",
+  "func_name",
+  "."
+))

@@ -67,9 +67,9 @@ AddTimeStamp2cli <- function(cli_func) {
   function(...) {
     messages <- list(...)
 
-    if (length(messages) > 0) {
-      if (is.character(messages[[1]])) {
-        messages[[1]] <- paste0("[{TimeStamp()}] ", messages[[1]])
+    if (length(messages) > 0L) {
+      if (is.character(messages[[1L]])) {
+        messages[[1L]] <- paste0("[{TimeStamp()}] ", messages[[1L]])
       }
     }
 
@@ -137,12 +137,12 @@ CreateTimeStampCliEnv <- function(
       new_func <- eval(substitute(
         function(..., .envir = parent.frame()) {
           args <- list(...)
-          if (length(args) > 0 && is.character(args[[1]])) {
-            args[[1]] <- paste0(
+          if (length(args) > 0L && is.character(args[[1L]])) {
+            args[[1L]] <- paste0(
               "[{.dim ",
               TimeStamp(),
               "}] ",
-              args[[1]]
+              args[[1L]]
             )
           }
           args$.envir <- .envir

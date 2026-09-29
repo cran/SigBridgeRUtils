@@ -50,11 +50,11 @@
 MatchArg <- function(
   arg,
   choices,
-  default = choices[1],
+  default = choices[1L],
   call = rlang::caller_env(),
   ...
 ) {
-  if (length(choices) == 0) {
+  if (length(choices) == 0L) {
     cli::cli_abort(
       c(
         "x" = "No choices provided.",

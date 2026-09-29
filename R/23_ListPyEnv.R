@@ -143,7 +143,7 @@ ListPyEnv.conda <- function(
         windows_verbatim_args = FALSE
       )
 
-      if (process_result$status != 0) {
+      if (process_result$status != 0L) {
         error_msg <- if (nzchar(process_result$stderr)) {
           # nolint
           process_result$stderr
@@ -156,7 +156,7 @@ ListPyEnv.conda <- function(
           ">" = "{error_msg}"
         ))
       }
-      conda_output <- strsplit(process_result$stdout, "\n")[[1]]
+      conda_output <- strsplit(process_result$stdout, "\n")[[1L]]
 
       env_lines <- grep(
         "^[a-zA-Z_]",
@@ -167,7 +167,7 @@ ListPyEnv.conda <- function(
         trimws() |>
         strsplit("\\s+")
 
-      if (length(env_lines) == 0) {
+      if (length(env_lines) == 0L) {
         cli::cli_warn(
           "No Conda environments found, return empty result."
         )
@@ -179,10 +179,10 @@ ListPyEnv.conda <- function(
       }
 
       env_matrix <- do.call(rbind, env_lines)
-      env_names <- env_matrix[, 1]
-      env_paths <- env_matrix[, 2]
+      env_names <- env_matrix[, 1L]
+      env_paths <- env_matrix[, 2L]
 
-      python_paths <- vapply(env_paths, GetPythonPath, character(1))
+      python_paths <- vapply(env_paths, GetPythonPath, character(1L))
 
       conda_result <- data.frame(
         name = env_names,
@@ -191,7 +191,7 @@ ListPyEnv.conda <- function(
         stringsAsFactors = FALSE
       )
 
-      if (!is.null(conda_result) && nrow(conda_result) > 0) {
+      if (!is.null(conda_result) && nrow(conda_result) > 0L) {
         return(conda_result)
       }
 
@@ -213,7 +213,7 @@ ListPyEnv.conda <- function(
       )
       conda_envs <- reticulate::conda_list()
 
-      if (!is.null(conda_envs) && nrow(conda_envs) > 0) {
+      if (!is.null(conda_envs) && nrow(conda_envs) > 0L) {
         conda_envs$type <- "conda"
         return(conda_envs)
       }
@@ -280,7 +280,7 @@ ListPyEnv.venv <- function(
     }
   }
 
-  if (length(venv_dirs) > 0) {
+  if (length(venv_dirs) > 0L) {
     return(data.frame(
       name = basename(venv_dirs),
       python = file.path(

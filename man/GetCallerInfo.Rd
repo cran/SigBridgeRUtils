@@ -4,7 +4,7 @@
 \alias{GetCallerInfo}
 \title{Get Caller Name}
 \usage{
-GetCallerInfo(offset = 2)
+GetCallerInfo(offset = 2L)
 }
 \arguments{
 \item{offset}{Integer. The number of stack frames to go back.

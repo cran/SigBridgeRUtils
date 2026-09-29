@@ -5,7 +5,7 @@ test_that("TimeStamp returns correct format", {
 
   # Check that it returns a character string
   expect_type(result, "character")
-  expect_length(result, 1)
+  expect_length(result, 1L)
 
   # Check format: YYYY/MM/DD HH:MM:SS
   pattern <- "^\\d{4}/\\d{2}/\\d{2} \\d{2}:\\d{2}:\\d{2}$"
@@ -45,7 +45,7 @@ test_that("TimeStamp is consistent with Sys.time", {
     sys_time,
     units = "secs"
   )))
-  expect_lt(time_diff, 2) # Allow 2 seconds tolerance
+  expect_lt(time_diff, 2L) # Allow 2 seconds tolerance
 })
 
 test_that("TimeStamp handles error gracefully", {
@@ -74,25 +74,25 @@ test_that("TimeStamp components are valid", {
   result <- TimeStamp()
 
   # Parse components
-  parts <- strsplit(result, "[/ :]")[[1]]
-  year <- as.numeric(parts[1])
-  month <- as.numeric(parts[2])
-  day <- as.numeric(parts[3])
-  hour <- as.numeric(parts[4])
-  minute <- as.numeric(parts[5])
-  second <- as.numeric(parts[6])
+  parts <- strsplit(result, "[/ :]")[[1L]]
+  year <- as.numeric(parts[1L])
+  month <- as.numeric(parts[2L])
+  day <- as.numeric(parts[3L])
+  hour <- as.numeric(parts[4L])
+  minute <- as.numeric(parts[5L])
+  second <- as.numeric(parts[6L])
 
   # Validate ranges
-  expect_gte(year, 2000) # Reasonable lower bound
-  expect_lte(year, 2100) # Reasonable upper bound
-  expect_gte(month, 1)
-  expect_lte(month, 12)
-  expect_gte(day, 1)
-  expect_lte(day, 31)
-  expect_gte(hour, 0)
-  expect_lte(hour, 23)
-  expect_gte(minute, 0)
-  expect_lte(minute, 59)
-  expect_gte(second, 0)
-  expect_lte(second, 59)
+  expect_gte(year, 2000L) # Reasonable lower bound
+  expect_lte(year, 2100L) # Reasonable upper bound
+  expect_gte(month, 1L)
+  expect_lte(month, 12L)
+  expect_gte(day, 1L)
+  expect_lte(day, 31L)
+  expect_gte(hour, 0L)
+  expect_lte(hour, 23L)
+  expect_gte(minute, 0L)
+  expect_lte(minute, 59L)
+  expect_gte(second, 0L)
+  expect_lte(second, 59L)
 })

@@ -17,13 +17,13 @@
 #' }
 #'
 #' @export
-GetCallerInfo <- function(offset = 2) {
+GetCallerInfo <- function(offset = 2L) {
   # Calculate absolute frame position
   # sys.nframe() gives current depth.
   # We subtract offset to find the target frame index.
   target_frame <- sys.nframe() - offset
 
-  if (target_frame < 1) {
+  if (target_frame < 1L) {
     return("global")
   }
 
@@ -58,15 +58,15 @@ AddCaller2cli <- function(cli_func) {
   function(...) {
     # offset = 1 because we are inside this anonymous wrapper function.
     # We look back 1 frame to find who called this wrapper.
-    caller_name <- GetCallerInfo(offset = 2)
+    caller_name <- GetCallerInfo(offset = 2L)
 
     messages <- list(...)
 
-    if (length(messages) > 0) {
-      if (is.character(messages[[1]])) {
+    if (length(messages) > 0L) {
+      if (is.character(messages[[1L]])) {
         # Construct the prefix: [caller]:
         prefix <- paste0("[", caller_name, "]: ")
-        messages[[1]] <- paste0(prefix, messages[[1]])
+        messages[[1L]] <- paste0(prefix, messages[[1L]])
       }
     }
 
@@ -121,17 +121,17 @@ CreateCallerCliEnv <- function(
           # Calculate caller info immediately.
           # Offset = 1: The user called THIS wrapper function.
           # We want the name of the function that called THIS wrapper.
-          caller_id <- GetCallerInfo(offset = 2)
+          caller_id <- GetCallerInfo(offset = 2L)
 
           args <- list(...)
-          if (length(args) > 0 && is.character(args[[1]])) {
+          if (length(args) > 0L && is.character(args[[1L]])) {
             # We prepend the caller string directly.
             # We avoid using glue for the prefix to prevent evaluation issues.
-            args[[1]] <- paste0(
+            args[[1L]] <- paste0(
               "[{.strong ",
               caller_id,
               "}] ", # Using .strong for visual distinction
-              args[[1]]
+              args[[1L]]
             )
           }
 

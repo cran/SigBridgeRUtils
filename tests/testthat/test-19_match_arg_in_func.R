@@ -84,7 +84,7 @@ test_that("MatchArg handles different argument types", {
 
   # Test with numeric argument (should be coerced to character)
   expect_error(
-    MatchArg(1, choices, default = NULL),
+    MatchArg(1L, choices, default = NULL),
     class = "MatchArgError"
   )
 
@@ -96,7 +96,7 @@ test_that("MatchArg handles different argument types", {
 })
 
 test_that("MatchArg handles empty choices", {
-  choices <- character(0)
+  choices <- character(0L)
 
   # Test with empty choices and NULL argument
   expect_error(MatchArg(NULL, choices))
@@ -143,9 +143,9 @@ test_that("MatchArg performance with large choice sets", {
   skip_on_cran()
 
   # Create a large set of choices
-  large_choices <- paste0("choice", 1:10000)
+  large_choices <- paste0("choice", 1L:10000L)
 
-  expect_time_lt <- function(expr, time_limit = 1) {
+  expect_time_lt <- function(expr, time_limit = 1L) {
     start_time <- Sys.time()
     force(expr)
     end_time <- Sys.time()

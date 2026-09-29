@@ -50,8 +50,8 @@ cli_env$cli_alert_success("Operation completed")
 \seealso{
 \code{\link{AddTimeStamp2cli}} for the wrapper function used internally.
 
-Other TimeStamp: 
-\code{\link{AddTimeStamp2cli}()},
-\code{\link{TimeStamp}()}
+Other TimeStamp:
+\code{\link[=AddTimeStamp2cli]{AddTimeStamp2cli()}},
+\code{\link[=TimeStamp]{TimeStamp()}}
 }
 \concept{TimeStamp}

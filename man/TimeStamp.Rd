@@ -23,8 +23,8 @@ TimeStamp()
 
 }
 \seealso{
-Other TimeStamp: 
-\code{\link{AddTimeStamp2cli}()},
-\code{\link{CreateTimeStampCliEnv}()}
+Other TimeStamp:
+\code{\link[=AddTimeStamp2cli]{AddTimeStamp2cli()}},
+\code{\link[=CreateTimeStampCliEnv]{CreateTimeStampCliEnv()}}
 }
 \concept{TimeStamp}

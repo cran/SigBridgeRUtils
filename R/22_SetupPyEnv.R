@@ -313,7 +313,7 @@ SetupPyEnv.conda <- function(
     required = TRUE
   )
   # Install packages
-  if (length(packages) > 0 && method != "environment") {
+  if (length(packages) > 0L && method != "environment") {
     if (verbose) {
       cli::cli_alert_info(
         "Installing Python packages in conda environment"
@@ -598,7 +598,7 @@ SetupPyEnv.venv <- function(
   }
 
   # Install required packages
-  if (length(packages) > 0) {
+  if (length(packages) > 0L) {
     if (verbose) {
       cli::cli_alert_info(
         "Installing Python packages in venv environment"
@@ -627,7 +627,7 @@ SetupPyEnv.venv <- function(
   }
 
   # Verify installation
-  pkg_names <- if (length(packages) > 0) names(packages) else character(0)
+  pkg_names <- if (length(packages) > 0L) names(packages) else character(0L)
 
   if (verbose) {
     cli::cli_alert_success(

@@ -91,6 +91,6 @@ SetupPyEnv.conda(
 
 }
 \seealso{
-\code{\link[reticulate:conda-tools]{reticulate::conda_create()}}, \code{\link[reticulate:py_install]{reticulate::py_install()}} for the underlying
+\code{\link[reticulate:conda_create]{reticulate::conda_create()}}, \code{\link[reticulate:py_install]{reticulate::py_install()}} for the underlying
 functions used in reticulate method.
 }

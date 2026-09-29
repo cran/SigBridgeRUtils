@@ -5,13 +5,13 @@ test_that("multiplication works", {
     message("f:hello world")
     caller_cli$cli_alert_warning("g:hello world")
     g(x)
-    return(1)
+    return(1L)
   }
 
   g <- function(x) {
     message("g:hello world")
     caller_cli$cli_alert_info("g:hello world")
-    return(x^2)
+    return(x^2L)
   }
 
   caller_cli2 <- CreateCallerCliEnv(c("cli_abort", "cli_warn"))

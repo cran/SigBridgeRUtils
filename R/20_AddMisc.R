@@ -37,7 +37,7 @@
 #'
 #' }
 #'
-#' @importFrom data.table `%chin%`
+#' @importFrom data.table %chin%
 #' @export
 #'
 AddMisc <- function(seurat_obj, ..., cover = TRUE) {

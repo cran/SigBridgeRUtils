@@ -4,7 +4,7 @@
 \alias{MatchArg}
 \title{Argument Matching with Default Fallback}
 \usage{
-MatchArg(arg, choices, default = choices[1], call = rlang::caller_env(), ...)
+MatchArg(arg, choices, default = choices[1L], call = rlang::caller_env(), ...)
 }
 \arguments{
 \item{arg}{The argument to match against choices. Can be \code{NULL} or a character vector.}

@@ -81,7 +81,7 @@ SetupPyEnv.venv(
 
 }
 \seealso{
-\code{\link[reticulate:virtualenv-tools]{reticulate::virtualenv_create()}}, \code{\link[reticulate:virtualenv-tools]{reticulate::virtualenv_remove()}},
-\code{\link[reticulate:use_python]{reticulate::use_virtualenv()}} for the underlying virtual environment
+\code{\link[reticulate:virtualenv_create]{reticulate::virtualenv_create()}}, \code{\link[reticulate:virtualenv_remove]{reticulate::virtualenv_remove()}},
+\code{\link[reticulate:use_virtualenv]{reticulate::use_virtualenv()}} for the underlying virtual environment
 management functions.
 }

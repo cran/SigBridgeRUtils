@@ -1,22 +1,26 @@
 Package: SigBridgeRUtils
 Title: Some Utilities & Base Supports for 'SigBridgeR'
-Version: 0.2.6
+Version: 0.2.7
 Authors@R: 
     person("Yuxi", "Yang", email = "15364051195@163.com", role = c("cre","aut"),  comment = c(ORCID = "0009-0006-1329-1224"))
 Description: Provides fundamental function support for 'SigBridgeR' and its single-cell phenotypic screening algorithm, including optional functions.
 License: GPL (>= 3)
 Encoding: UTF-8
-RoxygenNote: 7.3.3
 Depends: R (>= 4.1.0)
-Suggests: furrr, future, MASS, Matrix, matrixStats, microbenchmark,
-        preprocessCore, Rfast, SeuratObject, sparseMatrixStats,
-        testthat
-Imports: chk, cli, data.table, processx, purrr, reticulate, rlang
+Suggests: DelayedArray, furrr, future, ggplot2, MASS, Matrix,
+        matrixStats, microbenchmark, preprocessCore, Rfast,
+        SeuratObject, sparseMatrixStats, testthat, zeallot
+Imports: beachmat, chk, cli, data.table, processx, purrr, Rcpp,
+        reticulate, rlang
 Config/testthat/parallel: true
 Config/testthat/edition: 3
-NeedsCompilation: no
-Packaged: 2026-03-09 07:33:45 UTC; yyx
+URL: https://github.com/WangLabCSU/SigBridgeRUtils
+BugReports: https://github.com/WangLabCSU/SigBridgeRUtils/issues
+LinkingTo: Rcpp, RcppArmadillo, assorthead, beachmat
+Config/roxygen2/version: 8.1.0
+NeedsCompilation: yes
+Packaged: 2026-09-29 01:40:03 UTC; yyx
 Author: Yuxi Yang [cre, aut] (ORCID: <https://orcid.org/0009-0006-1329-1224>)
 Maintainer: Yuxi Yang <15364051195@163.com>
 Repository: CRAN
-Date/Publication: 2026-03-12 19:40:07 UTC
+Date/Publication: 2026-09-29 11:00:08 UTC

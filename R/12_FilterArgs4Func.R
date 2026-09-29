@@ -93,7 +93,7 @@ FilterArgs4Func <- function(args_list, fun, keep = NULL) {
   fun_formals <- fun_formals[fun_formals != "..."]
 
   # Combine function formals with explicitly preserved arguments
-  keep_names <- if (is.null(keep)) character(0) else keep
+  keep_names <- if (is.null(keep)) character(0L) else keep
   valid_names <- unique(c(fun_formals, keep_names))
 
   # Filter args_list to retain only valid names

@@ -9,7 +9,7 @@ GetFuncArgs(
   name_only = FALSE,
   func = rlang::caller_fn(),
   call = rlang::caller_call(),
-  expand.dots = TRUE,
+  dots_expand = TRUE,
   envir = rlang::caller_env()
 )
 }
@@ -18,9 +18,11 @@ GetFuncArgs(
 
 \item{name_only}{Logical. If \code{TRUE}, returns only argument names. If \code{FALSE}, returns the full argument list. Default is \code{FALSE}.}
 
+\item{func}{which function to seek}
+
 \item{call}{The call expression to extract arguments from. Default is \code{rlang::caller_call()}.}
 
-\item{expand.dots}{Logical. Whether to expand \code{...} arguments. Default is \code{TRUE}.}
+\item{dots_expand}{Logical. Whether to expand \code{...} arguments. Default is \code{TRUE}.}
 
 \item{envir}{The environment in which to evaluate the call. Default is \code{rlang::caller_env()}.}
 }
@@ -39,4 +41,3 @@ inner_func(1, 2, 3, 4)  # Returns c("a", "...")
 }
 
 }
-\keyword{internal}

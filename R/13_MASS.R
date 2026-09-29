@@ -28,27 +28,60 @@
 #' @export
 #'
 ginv2 <- function(X, tol = sqrt(.Machine$double.eps), ...) {
-  # if (inherits(X, "sparseMatrix")) {
-  #     return(ginv2.sparseMatrix(X, tol = tol, ...))
-  # }
+  is_s4matrix <- inherits(X, "Matrix")
+  is_delayedmatrix <- inherits(X, "DelayedMatrix")
+  is_matrix <- is.matrix(X)
+  is_vector <- is.vector(X)
 
-  if (inherits(X, "Matrix")) {
-    return(Matrix::Matrix(ginv2.default(X, tol = tol, ...)))
+  is_supported_matrix <- is_s4matrix ||
+    is_delayedmatrix ||
+    is_matrix ||
+    is_vector
+
+  if (length(dim(X)) > 2L || !is_supported_matrix) {
+    stop("'X' must be a numeric or complex matrix")
   }
 
-  # Base R matrix or coercible to matrix
-  if (length(dim(X)) > 2L || !(is.numeric(X) || is.complex(X))) {
-    cli::cli_abort(c("x" = "'X' must be a numeric or complex matrix"))
+  if (is_s4matrix) {
+    return(Matrix::Matrix(ginv2_beachmat(X, tol = tol, ...)))
   }
-  UseMethod("ginv2")
+  if (is_delayedmatrix) {
+    rlang::check_installed("DelayedArray")
+    return(DelayedArray::DelayedArray(ginv2_beachmat(X, tol = tol, ...)))
+  }
+
+  if (!is_matrix) {
+    X <- as.matrix(X)
+  }
+
+  if (is.complex(X)) {
+    return(ginv2_default(X, tol = tol, ...))
+  }
+
+  ginv2_beachmat(X, tol = tol, ...)
+}
+
+#' @rdname ginv2
+ginv2_beachmat <- function(X, tol = sqrt(.Machine$double.eps), ...) {
+  initialized <- beachmat::initializeCpp(X)
+
+  result <- ginv_cpp(
+    initialized,
+    tol
+  )
+
+  dimnames_X <- dimnames(X)
+  if (!is.null(dimnames_X)) {
+    dimnames(result) <- rev(dimnames_X)
+  }
+
+  result
 }
 
 
-#' @title Generalized Inverse for Base R Matrices
-#' @description Default method for base R matrices (from MASS::ginv)
 #' @rdname ginv2
 #' @export
-ginv2.default <- function(X, tol = sqrt(.Machine$double.eps), ...) {
+ginv2_default <- function(X, tol = sqrt(.Machine$double.eps), ...) {
   if (!is.matrix(X)) {
     X <- as.matrix(X)
   }
@@ -62,86 +95,16 @@ ginv2.default <- function(X, tol = sqrt(.Machine$double.eps), ...) {
     u <- Conj(u)
   }
 
-  Positive <- d > max(tol * d[1L], 0)
+  Positive <- d > max(tol * d[1L], 0L)
 
   if (!any(Positive)) {
-    return(array(0, dim(X)[c(2L, 1L)]))
+    return(array(0L, dim(X)[c(2L, 1L)]))
   }
 
   if (all(Positive)) {
-    v %*% (1 / d * t(u))
+    v %*% (1L / d * t(u))
   } else {
     v[, Positive, drop = FALSE] %*%
-      ((1 / d[Positive]) * t(u[, Positive, drop = FALSE]))
+      ((1L / d[Positive]) * t(u[, Positive, drop = FALSE]))
   }
 }
-
-# #' @title Generalized Inverse for Sparse Matrix Objects
-# #' @description Method for all sparse Matrix package objects
-# #' @param method Method to use: "svd" (default) or "qr"
-# #' @param return_sparse Whether to return sparse matrix if appropriate
-# #' @rdname ginv2
-# #' @export
-# ginv2.sparseMatrix <- function(
-#     X,
-#     tol = sqrt(.Machine$double.eps),
-#     method = c("auto", "svd", "qr"),
-#     return_sparse = TRUE,
-#     ...
-# ) {
-#     method <- match.arg(method)
-#     if (method == "auto") {
-#         density <- Matrix::nnzero(X) / length(X)
-#         if (density < 0.3 && ncol(X) <= 1000) {
-#             method <- "qr"
-#         } else {
-#             method <- "svd"
-#         }
-#     }
-
-#     if (method == "qr") {
-#         if (!inherits(X, "CsparseMatrix")) {
-#             X <- as(X, "CsparseMatrix")
-#         }
-
-#         qr_x <- Matrix::qr(X)
-#         R <- Matrix::qr.R(qr_x)
-
-#         d <- abs(Matrix::diag(R))
-#         rank <- sum(d > tol * max(d))
-
-#         if (rank < ncol(X)) {
-#             cli::cli_warn(
-#                 "Matrix is rank deficient, using regularized solution"
-#             )
-#             XtX <- Matrix::crossprod(X)
-#             reg_param <- tol * mean(Matrix::diag(XtX))
-#             XtX_reg <- XtX + reg_param * Matrix::Diagonal(ncol(X))
-#             result <- Matrix::solve(XtX_reg, Matrix::t(X))
-#         } else {
-#             result <- Matrix::solve(R, Matrix::t(Matrix::qr.Q(qr_x)))
-#         }
-#     } else {
-#         # SVD
-#         X_dense <- as.matrix(X)
-#         svd_result <- svd(X_dense)
-#         d <- svd_result$d
-#         keep <- d > tol * max(d)
-#         d_inv <- rep(0, length(d))
-#         d_inv[keep] <- 1 / d[keep]
-
-#         result <- svd_result$v[, keep, drop = FALSE] %*%
-#             (d_inv[keep] * t(svd_result$u[, keep, drop = FALSE]))
-#     }
-
-#     if (return_sparse) {
-#         result_max <- max(abs(result))
-#         if (result_max > 0) {
-#             zero_threshold <- tol * result_max
-#             result[abs(result) < zero_threshold] <- 0
-#         }
-#         return(Matrix::drop0(Matrix::Matrix(result, sparse = TRUE)))
-#     }
-
-#     as.matrix(result)
-# }

@@ -47,7 +47,7 @@
 #' # Returns: c("f1", "f2") when dots_enabled=TRUE
 #' }
 #' @export
-#' @importFrom data.table `%chin%` `:=`
+#' @importFrom data.table %chin% :=
 #' @seealso [FilterArgs4Func()] for filtering arguments to a function.(Reverse of this function)
 MatchFunc2Args <- function(
   args_list,
@@ -57,7 +57,7 @@ MatchFunc2Args <- function(
   dots_enabled = FALSE
 ) {
   # Validate args_list has proper names when non-empty
-  if (length(args_list) > 0) {
+  if (length(args_list) > 0L) {
     if (is.null(names(args_list)) || any(names(args_list) == "")) {
       cli::cli_abort(c(
         "x" = "`args_list` must be a named list with non-empty names for all elements when non-empty."
@@ -91,12 +91,12 @@ MatchFunc2Args <- function(
       positions <- which(has_these_args) #
       count <- sum(has_these_args) # number of matched args
 
-      if (length(positions) == 0) {
+      if (length(positions) == 0L) {
         # integre(0), not found
         list(
           func_name = func_name,
-          position_sum = 0,
-          arg_count = 0,
+          position_sum = 0L,
+          arg_count = 0L,
           has_dots = has_dots
         )
       } else {
@@ -112,7 +112,7 @@ MatchFunc2Args <- function(
 
   guess_dt <- data.table::rbindlist(guess)
   data.table::setorder(guess_dt, -arg_count, position_sum, has_dots)
-  guess_dt <- guess_dt[arg_count > 0]
+  guess_dt <- guess_dt[arg_count > 0L]
 
   if (dots_enabled) {
     # because dots can accrpt any args,
@@ -143,8 +143,8 @@ MatchFunc2Args <- function(
   if (top_one_only) {
     if (
       all(
-        guess_dt[1, .(position_sum, arg_count)] ==
-          guess_dt[2, .(position_sum, arg_count)]
+        guess_dt[1L, .(position_sum, arg_count)] ==
+          guess_dt[2L, .(position_sum, arg_count)]
       )
     ) {
       cli::cli_warn(
@@ -152,9 +152,9 @@ MatchFunc2Args <- function(
       )
     }
     if (name_only) {
-      return(guess_dt$func_name[1])
+      return(guess_dt$func_name[1L])
     } else {
-      return(dots_funcs[[guess_dt$func_name[1]]])
+      return(dots_funcs[[guess_dt$func_name[1L]]])
     }
   }
 

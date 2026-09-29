@@ -8,6 +8,7 @@
 #' - `verbose`: A logical value indicating whether to print verbose messages, defaults to `TRUE`
 #' - `timeout`: An integer specifying the timeout in seconds for parallel processing, defaults to `180L``
 #' - `seed`: An integer specifying the random seed for reproducible results, defaults to `123L``
+#' - `nthreads`: An integer specifying the number of threads for parallel processing, defaults to `1L``
 #'
 #'
 #' @name SigBridgeR_Function_Setting
@@ -32,8 +33,8 @@ NULL
 #'
 #' @export
 setFuncOption <- function(...) {
-  opts <- rlang::list2(...)
-  if (length(opts) > 0) {
+  opts <- list(...)
+  if (length(opts) > 0L) {
     opt_names <- names(opts)
     needs_prefix <- !startsWith(opt_names, "SigBridgeR.")
     opt_names[needs_prefix] <- paste0(
@@ -103,6 +104,7 @@ getFuncOption <- function(option = NULL, default = NULL) {
 #' \describe{
 #' \item{verbose}{Must be single logical values (TRUE/FALSE)}
 #' \item{timeout, seed}{Must be single integer values}
+#' \item{nthreads}{Must be a single positive integer value}
 #' }
 #'
 #' The function is automatically called by setFuncOption to ensure all
@@ -135,6 +137,17 @@ checkFuncOption <- function(option, value, call = rlang::caller_env()) {
         )
       }
     },
+    'positive_integer' = function(x) {
+      if (!rlang::is_scalar_integer(x) || x < 1L) {
+        cli::cli_abort(
+          c(
+            "x" = "{.var {option}} must be a positive integer value.",
+            ">" = "Current value is {.val {x}} ({.type {class(x)}})."
+          ),
+          call = call
+        )
+      }
+    },
     'scalar_character' = function(x) {
       if (!rlang::is_scalar_character(x)) {
         cli::cli_abort(
@@ -152,6 +165,7 @@ checkFuncOption <- function(option, value, call = rlang::caller_env()) {
     "SigBridgeR.verbose" = checker$scalar_logical(value),
     "SigBridgeR.timeout" = ,
     "SigBridgeR.seed" = checker$scalar_integer(value),
+    "SigBridgeR.nthreads" = checker$positive_integer(value),
     cli::cli_abort('Unknown option: {.var {option}}')
   )
 

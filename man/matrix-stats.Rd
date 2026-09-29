@@ -15,7 +15,7 @@
 \alias{rowMedians3}
 \alias{colMedians3}
 \alias{normalize.quantiles}
-\title{Matrix Statistics Functions (Not Necessarily)}
+\title{Matrix Statistics Functions}
 \usage{
 rowMeans3(x, na.rm = FALSE, ...)
 
@@ -29,7 +29,7 @@ rowSds3(x, na.rm = FALSE, ...)
 
 colSds3(x, na.rm = FALSE, ...)
 
-colQuantiles3(x, probs = seq(0, 1, 0.25), ...)
+colQuantiles3(x, probs = seq(0L, 1L, 0.25), ...)
 
 rowMaxs3(
   x,
@@ -70,17 +70,17 @@ normalize.quantiles(x, copy = TRUE, keep.names = FALSE, ...)
 \arguments{
 \item{x}{A numeric matrix where columns represent samples and rows represent features.}
 
-\item{na.rm}{Logical indicating whether to remove missing values}
+\item{na.rm}{Logical indicating whether to remove missing values.}
 
 \item{...}{Additional arguments (currently not used).}
 
 \item{probs}{Numeric vector of probabilities with values between 0 and 1.}
 
-\item{rows, cols}{Indices specifying subset of rows/columns to operate over}
+\item{rows, cols}{Indices specifying a subset of rows or columns.}
 
-\item{dim.}{Dimensions of the input matrix}
+\item{dim.}{Dimensions of the input matrix.}
 
-\item{useNames}{Logical indicating whether to preserve row names in output}
+\item{useNames}{Logical indicating whether to preserve output names.}
 
 \item{copy}{Logical indicating whether to work on a copy of the matrix (TRUE)
 or modify in-place (FALSE).}
@@ -88,41 +88,26 @@ or modify in-place (FALSE).}
 \item{keep.names}{Logical indicating whether to preserve row and column names.}
 }
 \value{
-A numeric vector of length nrow(x) containing row variances.
+A numeric vector containing the requested statistic.
 
-A numeric vector of length nrow(x) containing row variances.
+A matrix of quantiles with ncol(x) rows and length(probs) columns.
 
-A numeric vector of length nrow(x) containing row variances.
+A numeric vector containing row maxima.
 
-A numeric vector of length ncol(x) containing column variances.
+A numeric vector containing column sums.
 
-A numeric vector of length nrow(x) containing row standard deviations.
+A numeric vector containing row sums.
 
-A numeric vector of length ncol(x) containing column standard deviations.
+A numeric vector containing row medians.
 
-A matrix of quantiles with length(probs) rows and ncol(x) columns.
-
-A numeric vector of length nrow(x) containing row maximums
-
-A numeric vector of length \code{ncol(x)} containing column sums.
-
-A numeric vector of length \code{nrow(x)} containing row sums.
-
-A numeric vector of length \code{nrow(x)} containing row sums.
-
-A numeric vector of length \code{nrow(x)} containing row sums.
+A numeric vector containing column medians.
 
 A numeric matrix of the same dimensions as x with quantile-normalized data.
 }
 \description{
-A collection of functions for computing matrix statistics with fallback
-implementations when specialized packages are not available.
-\itemize{
-\item sparseMatrixStats -> sparseMatrix
-\item matrixStats -> matrix
-\item Matrix -> denseMatrix
-\item base R -> matrix
-}
+Matrix statistics implemented in C++ through beachmat and tatami. These
+functions support ordinary, sparse (S4 Matrix), and DelayedArray matrices without
+coercing them to a dense R matrix.
 
 normalize.quantiles performs quantile normalization on a matrix, transforming
 the distributions of each column to match a common target distribution.
@@ -130,47 +115,6 @@ Uses preprocessCore::normalize.quantiles if available, otherwise provides
 a pure R implementation.
 }
 \examples{
-mat <- matrix(rnorm(100), nrow = 10, ncol = 10)
-
-# Compute row variances
-row_vars <- rowVars3(mat)
-
-# With missing values
-mat[1, 1] <- NA
-row_vars_na <- rowVars3(mat, na.rm = TRUE)
-
-mat <- matrix(rnorm(100), nrow = 10, ncol = 10)
-
-# Compute column variances
-col_vars <- colVars3(mat)
-
-# With missing values
-mat[1, 1] <- NA
-col_vars_na <- colVars3(mat, na.rm = TRUE)
-
-mat <- matrix(rnorm(100), nrow = 10, ncol = 10)
-row_sds <- rowSds3(mat)
-
-mat <- matrix(rnorm(100), nrow = 10, ncol = 10)
-col_sds <- colSds3(mat)
-
-mat <- matrix(rnorm(100), nrow = 10, ncol = 10)
-
-# Compute quartiles for each column
-quartiles <- colQuantiles3(mat)
-
-# Compute specific quantiles
-specific_quantiles <- colQuantiles3(mat, probs = c(0.1, 0.5, 0.9))
-
-mat <- matrix(rnorm(100), nrow = 10, ncol = 10)
-
-# Compute row maximums
-row_maxs <- rowMaxs3(mat)
-
-# With missing values
-mat[1, 1] <- NA
-row_maxs_na <- rowMaxs3(mat, na.rm = TRUE)
-
 mat <- matrix(rnorm(100), nrow = 10, ncol = 10)
 
 # Perform quantile normalization
@@ -183,9 +127,5 @@ normalized_with_names <- normalize.quantiles(mat, keep.names = TRUE)
 
 }
 \seealso{
-\code{\link[matrixStats:rowVars]{matrixStats::rowVars()}} for the underlying implementation
-
-\code{\link[matrixStats:rowSds]{matrixStats::colSds()}} for the underlying implementation
-
 \code{\link[preprocessCore:normalize.quantiles]{preprocessCore::normalize.quantiles()}} for the underlying implementation
 }

@@ -2,12 +2,15 @@
 % Please edit documentation in R/13_MASS.R
 \name{ginv2}
 \alias{ginv2}
-\alias{ginv2.default}
+\alias{ginv2_beachmat}
+\alias{ginv2_default}
 \title{Generalized Inverse (Moore-Penrose Inverse)}
 \usage{
 ginv2(X, tol = sqrt(.Machine$double.eps), ...)
 
-\method{ginv2}{default}(X, tol = sqrt(.Machine$double.eps), ...)
+ginv2_beachmat(X, tol = sqrt(.Machine$double.eps), ...)
+
+ginv2_default(X, tol = sqrt(.Machine$double.eps), ...)
 }
 \arguments{
 \item{X}{A numeric or complex matrix}
@@ -23,8 +26,6 @@ The generalized inverse of X
 Compute the Moore-Penrose generalized inverse of a matrix.
 This is an S3 generic function with methods for base matrices,
 dense Matrix objects, and sparse Matrix objects.
-
-Default method for base R matrices (from MASS::ginv)
 }
 \examples{
 \dontrun{

@@ -1,16 +1,16 @@
 test_that("multiplication works", {
   f <- function(
-    a = 1,
-    b = 2,
-    c = 3,
+    a = 1L,
+    b = 2L,
+    c = 3L,
     ...
   ) {
     a * b * c
     message(a, b, c, ...)
   }
 
-  l <- list(a = 10, b = 20, x = 30, y = 40)
+  l <- list(a = 10L, b = 20L, x = 30L, y = 40L)
 
   l2 <- FilterArgs4Func(l, f)
-  expect_equal(l2, list(a = 10, b = 20))
+  expect_equal(l2, list(a = 10L, b = 20L))
 })

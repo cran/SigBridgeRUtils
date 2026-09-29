@@ -1,14 +1,14 @@
 test_that("multiplication works", {
-  func1 <- function(a, b, c = 10) a + b + c
+  func1 <- function(a, b, c = 10L) a + b + c
   func2 <- function(x, y, ...) x * y
   func3 <- function(p, q) p - q
   # Argument list to match
-  args <- list(a = 1, b = 2)
+  args <- list(a = 1L, b = 2L)
   res1 <- MatchFunc2Args(args, func1, func2, func3, name_only = TRUE)
   # Returns c("func1")
   # Anonymous function example
   res2 <- MatchFunc2Args(
-    list(x = 5, y = 3),
+    list(x = 5L, y = 3L),
     function(x, y) x + y,
     mean,
     name_only = TRUE

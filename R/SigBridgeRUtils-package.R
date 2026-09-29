@@ -1,0 +1,79 @@
+# nocov start
+
+#' @title Some Utilities & Base Supports for 'SigBridgeR'
+#'
+#' @description Provides fundamental function support for 'SigBridgeR' and its single-cell phenotypic screening algorithm, including optional functions.
+#'
+#' @section License:
+#' GPL (>= 3)
+#'
+#' @docType package
+#' @name SigBridgeRUtils-package
+#' @aliases SigBridgeRUtils
+#' @keywords internal
+#'
+"_PACKAGE"
+
+
+.onAttach <- function(libname, pkgname) {
+  pkg_version <- utils::packageVersion(pkgname)
+
+  startup_spinner(
+    expr = invisible(),
+    pkgname = pkgname,
+    pkg_version = pkg_version
+  )
+}
+
+.onLoad <- function(libname, pkgname) {
+  invisible()
+}
+
+
+startup_spinner <- function(expr, pkgname, pkg_version) {
+  if (!interactive() || !startup_message_allowed()) {
+    return(force(expr))
+  }
+
+  id <- cli::cli_progress_step(
+    msg = "{.pkg {pkgname}} v{pkg_version} loading",
+    msg_done = "{.pkg {pkgname}} v{pkg_version} loaded",
+    msg_failed = "{.pkg {pkgname}} v{pkg_version} fail to load",
+    spinner = TRUE
+  )
+
+  on.exit(
+    cli::cli_progress_done(id = id),
+    add = TRUE
+  )
+
+  force(expr)
+}
+
+startup_message_allowed <- function() {
+  allowed <- FALSE
+
+  withRestarts(
+    {
+      signalCondition(structure(
+        list(message = ".__startup_probe__."),
+        class = c(
+          "packageStartupProbe",
+          "packageStartupMessage",
+          "condition"
+        )
+      ))
+      allowed <- TRUE
+    },
+    muffleMessage = function() NULL
+  )
+
+  allowed
+}
+
+## usethis namespace: start
+#' @importFrom Rcpp evalCpp
+## usethis namespace: end
+NULL
+
+# nocov end

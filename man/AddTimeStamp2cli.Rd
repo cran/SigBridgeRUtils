@@ -38,8 +38,8 @@ timestamp_alert("This message will have a timestamp")
 \code{\link{CreateTimeStampCliEnv}} for creating a complete environment
 of timestamped CLI functions.
 
-Other TimeStamp: 
-\code{\link{CreateTimeStampCliEnv}()},
-\code{\link{TimeStamp}()}
+Other TimeStamp:
+\code{\link[=CreateTimeStampCliEnv]{CreateTimeStampCliEnv()}},
+\code{\link[=TimeStamp]{TimeStamp()}}
 }
 \concept{TimeStamp}

@@ -1,3 +1,6 @@
+#' @useDynLib SigBridgeRUtils, .registration = TRUE
+NULL
+
 utils::globalVariables(c(
   "base_key",
   "suffix",
